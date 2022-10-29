@@ -1,0 +1,80 @@
+USE [BDInmobiliaria]
+GO
+
+IF OBJECT_ID ( 'dbo.crud_familiares', 'P' ) IS NOT NULL
+DROP PROCEDURE dbo.crud_familiares;
+GO
+
+CREATE PROCEDURE dbo.insert_familiares
+(
+	@COD_FAMI char(6),
+	@COD_USUA char(6),
+	@NOM_FAMI varchar(25),
+	@APEPATER_FAMI varchar(25),
+	@APEMATER_FAMI varchar(25),
+	@GRADO_PARENTES_FAMI varchar(50)
+)
+AS
+SET NOCOUNT ON
+	
+SET NOCOUNT OFF
+GO
+
+CREATE PROCEDURE dbo.update_familiares
+(
+	@COD_FAMI char(6),
+	@COD_USUA char(6),
+	@NOM_FAMI varchar(25),
+	@APEPATER_FAMI varchar(25),
+	@APEMATER_FAMI varchar(25),
+	@GRADO_PARENTES_FAMI varchar(50)
+)
+AS
+SET NOCOUNT ON
+SET NOCOUNT OFF
+GO
+
+CREATE PROCEDURE dbo.delete_familiares
+(
+	@COD_FAMI char(6)
+)
+AS
+SET NOCOUNT ON
+	delete from Comercial.FAMILIARES where COD_FAMI = @COD_FAMI
+SET NOCOUNT OFF
+GO
+
+CREATE PROCEDURE dbo.select_familiares
+(
+	@COD_FAMI char(6)
+)
+AS
+SET NOCOUNT ON
+	select * from comercial.familiares where COD_FAMI = @COD_FAMI
+SET NOCOUNT OFF
+GO
+
+
+
+CREATE PROCEDURE dbo.crud_familiares
+(
+	@CRUD_COMAND varchar(25),
+	@COD_FAMI char(6),
+	@COD_USUA char(6),
+	@NOM_FAMI varchar(25),
+	@APEPATER_FAMI varchar(25),
+	@APEMATER_FAMI varchar(25),
+	@GRADO_PARENTES_FAMI varchar(50)
+)
+AS
+
+	BEGIN TRAN;
+	IF(@CRUD_COMAND = 'INSERT')
+		EXEC dbo.insert_familiares @COD_FAMI, @COD_USUA, @NOM_FAMI, @APEPATER_FAMI, @APEMATER_FAMI, @GRADO_PARENTES_FAMI
+	IF(@CRUD_COMAND = 'UPDATE')
+		EXEC dbo.update_familiares @COD_FAMI, @COD_USUA, @NOM_FAMI, @APEPATER_FAMI, @APEMATER_FAMI, @GRADO_PARENTES_FAMI
+	IF(@CRUD_COMAND = 'DELETE')
+		EXEC dbo.delete_familiares @COD_FAMI
+	ELSE
+		EXEC dbo.select_familiares @COD_FAMI
+GO
